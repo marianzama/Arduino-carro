@@ -1,18 +1,22 @@
 
-static int PinIN1 = //falta saber que pines vamos a utilizar
-static int PinIN2 = //falta saber que pines vamos a utilizar
-static int PinIN3 = //falta saber que pines vamos a utilizar
-static int PinIN4 = //falta saber que pines vamos a utilizar
+static int Pin1 = //falta saber que pines vamos a utilizar
+static int Pin2 = //falta saber que pines vamos a utilizar
+static int Pin3 = //falta saber que pines vamos a utilizar
+static int Pin4 = //falta saber que pines vamos a utilizar
+static int Pin5 = //falta saber que pines vamos a utilizar
+static int Pin6 = //falta saber que pines vamos a utilizar
 static int Pin_sensor1 = //falta saber que pines vamos a utilizar
 static int Pin_sensor2 = //falta saber que pines vamos a utilizar
 static int Pin_sensor3 = //falta saber que pines vamos a utilizar
 
 void setup() {
   Serial.begin(9600);               //iniciamos las comunicaciones con el puerto serie para el monitor serie
-  pinMode(PinIN1, OUTPUT);
-  pinMode(PinIN2, OUTPUT);
-  pinMode(PinIN3, OUTPUT);
-  pinMode(PinIN4, OUTPUT);
+  pinMode(Pin1, OUTPUT);
+  pinMode(Pin2, OUTPUT);
+  pinMode(Pin3, OUTPUT);
+  pinMode(Pin4, OUTPUT);
+  pinMode(Pin5, OUTPUT);
+  pinMode(Pin6, OUTPUT);
   pinMode(Pin_sensor1, INPUT);       //definimos el pin que vamos a utilizar como entrada para el sensor izquierdo
   pinMode(Pin_sensor2, INPUT);       //definimos el pin que vamos a utilizar como entrada para el sensor derecho
   pinMode(Pin_sensor3, INPUT);       //definimos el pin que vamos a utilizar como entrada para el sensor de en medio
@@ -32,59 +36,69 @@ void loop() {
   if (value1 == LOW & value2== LOW & value3==LOW) 
   {
     Serial.println("adelante");
-    MotorAdelante();    
+    MotorAdelanteAA();    
   }
   
   if (value1 == HIGH & value2== HIGH & value3==HIGH) 
   {
     Serial.println("detenido");
-    MotorStop();    
+    MotorStopAA();    
   }
  
-   if (value1 == HIGH && value2 == LOW) // Si el sensor izuierdo detecta una zona oscura    
+   if (value1 == HIGH && value2 == LOW && value3==LOw) // Si el sensor izuierdo detecta una zona oscura    
     {
      Serial.println("izquierda");
-     MotorIzquierda();
+     MotorIzquierdaAA();
     } 
     
-   if (value2 == HIGH && value1 == LOW) // Si el sensor derecho detecta una zona oscura  
+   if (value2 == HIGH && value1 == LOW && value3==LOw) // Si el sensor derecho detecta una zona oscura  
     { 
      Serial.println("derecha"); 
-     MotorDerecha();
+     MotorDerechaAA();
     }
- 
+  if (value3==HIGH && value1 == LOW && value2== LOW){
+    Serial.println("adelante")
+    MotorAdelanteAA();
+    }
   delay(20);                             // Hacemos una pausa en milisegundos, de forma que leemos el sensor cada dicho tiempo
 }
   
-  void MotorIzquierda()
+  void MotorIzquierdaAA()
   {
-  digitalWrite (PinIN1, HIGH);            // Motor Izquierdo atras
-  digitalWrite (PinIN2, LOW);  
-  digitalWrite (PinIN3, HIGH);            // Motor Derecho adelante
-  digitalWrite (PinIN4, LOW); 
+  digitalWrite (Pin1, HIGH);            // Motor Izquierdo atras
+  digitalWrite (Pin2, LOW);  
+  digitalWrite (Pin3, HIGH);            // Motor Derecho adelante
+  digitalWrite (Pin4, LOW); 
+  digitalWrite(Pin5, HIGH);
+  digitalWrite(Pin6,LOW);
   }
 
-  void MotorDerecha()
+  void MotorDerechaAA()
   {
-  digitalWrite (PinIN1, LOW);             // Motor Izquierdo adelante
-  digitalWrite (PinIN2, HIGH);  
-  digitalWrite (PinIN3, LOW);             // Motor Derecho atras
-  digitalWrite (PinIN4, HIGH);
+  digitalWrite (Pin1, LOW);             // Motor Izquierdo adelante
+  digitalWrite (Pin2, HIGH);  
+  digitalWrite (Pin3, LOW);             // Motor Derecho atras
+  digitalWrite (Pin4, HIGH);
+  digitalWrite(Pin5, LOW);
+  digitalWrite(Pin6, HIGH);
   }
 
-  void MotorAdelante()
+  void MotorAdelanteAA()
   {
-  digitalWrite (PinIN1, LOW);             // Motor Izquierdo adelante
-  digitalWrite (PinIN2, HIGH); 
-  digitalWrite (PinIN3, HIGH);            // Motor Derecho adelante
-  digitalWrite (PinIN4, LOW); 
-  }
+  digitalWrite (Pin1, LOW);             // Motor Izquierdo adelante
+  digitalWrite (Pin2, HIGH); 
+  digitalWrite (Pin3, HIGH);            // Motor Derecho adelante
+  digitalWrite (Pin4, LOW); 
+  digitalWrite(Pin5, LOW);
+  digitalWrite(Pin6, HIGH);
+  } //checar bien esta función 
 
-  void MotorStop()
+  void MotorStopAA()
   {
-  digitalWrite (PinIN1, LOW);             // Motor Izquierdo detenido
-  digitalWrite (PinIN2, LOW);
-  digitalWrite (PinIN3, LOW);             // Motor Derecho detenido 
-  digitalWrite (PinIN4, LOW);
-  
+  digitalWrite (Pin1, LOW);             // Motor Izquierdo detenido
+  digitalWrite (Pin2, LOW);
+  digitalWrite (Pin3, LOW);             // Motor Derecho detenido 
+  digitalWrite (Pin4, LOW);
+  digitalWrite(Pin5, LOW);
+  digitalWrite(Pin6,LOW);
   }
