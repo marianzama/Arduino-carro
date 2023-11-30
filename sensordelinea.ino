@@ -1,5 +1,4 @@
 #include <Servo.h>
-
 #define LE 2
 #define MID 4
 #define RIG 10
@@ -18,56 +17,42 @@ int sm;
 int sl;
 int cont;
 int flag;
-void Motoradelante(int VEL){
-  analogWrite(MLPWM,VEL);
-  analogWrite(MRPWM,VEL);
-  digitalWrite(ML1,HIGH);
-  digitalWrite(ML2,LOW);
-  digitalWrite(MR1,HIGH);
-  digitalWrite(MR2,LOW);
+// quisiera declararle mi amor pero apenas se declarar variables
+void Motoradelante(float VEL){
+  analogWrite(MLPWM,VEL);analogWrite(MRPWM,VEL);
+  digitalWrite(ML1,HIGH);digitalWrite(ML2,LOW);
+  digitalWrite(MR1,HIGH);digitalWrite(MR2,LOW);
 }
-void Motorrever(int VEL){
-  analogWrite(MLPWM,VEL);
-  analogWrite(MRPWM,VEL);
-  digitalWrite(ML1,LOW);
-  digitalWrite(ML2,HIGH);
-  digitalWrite(MR1,LOW);
-  digitalWrite(MR2,HIGH);
+void Motorrever(float VEL){
+  analogWrite(MLPWM,VEL);analogWrite(MRPWM,VEL);
+  digitalWrite(ML1,LOW);digitalWrite(ML2,HIGH);
+  digitalWrite(MR1,LOW);digitalWrite(MR2,HIGH);
 }
 void Motorpausa(){
-  analogWrite(MLPWM,0);
-  analogWrite(MRPWM,0);
-  digitalWrite(ML1,LOW);
-  digitalWrite(ML2,LOW);
-  digitalWrite(MR1,LOW);
-  digitalWrite(MR2,LOW);
+  analogWrite(MLPWM,0);analogWrite(MRPWM,0);
+  digitalWrite(ML1,LOW);digitalWrite(ML2,LOW);
+  digitalWrite(MR1,LOW);digitalWrite(MR2,LOW);
 }
-void Motorder(int VEL){
-  analogWrite(MLPWM,VEL);
-  analogWrite(MRPWM,VEL);
-  digitalWrite(ML1,HIGH);
-  digitalWrite(ML2,LOW);
-  digitalWrite(MR1,LOW);
-  digitalWrite(MR2,HIGH);
+void Motorder(float VEL){
+  analogWrite(MLPWM,VEL);analogWrite(MRPWM,VEL);
+  digitalWrite(ML1,HIGH);digitalWrite(ML2,LOW);
+  digitalWrite(MR1,LOW);digitalWrite(MR2,HIGH);
 }
-void Motorizq(int VEL){
-  analogWrite(MLPWM,VEL);
-  analogWrite(MRPWM,VEL);
-  digitalWrite(ML1,LOW);
-  digitalWrite(ML2,HIGH);
-  digitalWrite(MR1,HIGH);
-  digitalWrite(MR2,LOW);
+void Motorizq(float VEL){
+  analogWrite(MLPWM,VEL);analogWrite(MRPWM,VEL);
+  digitalWrite(ML1,LOW);digitalWrite(ML2,HIGH);
+  digitalWrite(MR1,HIGH);digitalWrite(MR2,LOW);
 }
-
 void ultra(){
-  
-}
+  digitalWrite(TR,LOW);delay(10);
+  digitalWrite(TR,HIGH);delay(10);
+  digitalWrite(TR,LOW);
+  float d=pulseIn(EC,HIGH);
+  float distance=d*0.034/2;           
+} 
 void linea(){
-  Serial.println("Seguidor de linea");
-  sr=digitalRead(RIG);
-  sm=digitalRead(MID);
-  sl=digitalRead(LE);
   while(true){
+    sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
     if(sr == HIGH && sm == HIGH && sl == HIGH){
         Motorpausa();
         Motoradelante(125);
@@ -82,142 +67,137 @@ void linea(){
       if(sr == LOW && sl == HIGH){
         Motorder(125);
       }
-     } 
+    } 
+  }
+}
+void lineatras(){
+  while(true){
+    sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
+    if(sr == HIGH && sm == HIGH && sl == HIGH){
+        Motorpausa();
+        Motorrever(125);
+    }
+    if(sm == LOW){
+      if(sr == HIGH && sl == HIGH){
+        Motorrever(125);
+      }
+      
    }
+  }
 }
+//aca inicia el grid
 void adelante1(){
+  sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
   cont=0;
-  flag=0;
-  sr=digitalRead(RIG);
-  sm=digitalRead(MID);
-  sl=digitalRead(LE);
-  while  (sm==HIGH ){
-    Motoradelante(125);
-    if (sl==HIGH && sr==HIGH){
-      flag=1;
-      if (flag==1){
-        cont=1;
-        flag=0;
-        if (cont==1){
-          Motorpausa(); 
-        }
-      }
+  if(sm == 1){
+    Motoradelante(125/1.2);
+    cont=1;
+  }
+  if (sr==0 || sm==0 || sl==0){
+    cont=0;
+    Motorpausa();
+    delay(1000);
+    if (cont==0){
+      Motorpausa();
+    }else{
+      Motoradelante(125/1.2);
     }
   }
 }
-void adelante2(){
-  cont=0;
-  flag=0;
-  sr=digitalRead(RIG);
-  sm=digitalRead(MID);
-  sl=digitalRead(LE);
-  while  (sm==HIGH ){
-    Motoradelante(125);
-    if (sl==HIGH && sr==HIGH){
-      flag=1;
-      if (flag==1){
-        cont=1;
-        flag=2;
-      }
-      if (flag==2){
-        flag==0;
-        cont=2;
-      }
-      if (cont==2){
-        Motorpausa(); 
-      }
-    }
-  }
+
+void atras1(){
+
 }
-void adelante3(){
-  cont=0;
-  flag=0;
-  sr=digitalRead(RIG);
-  sm=digitalRead(MID);
-  sl=digitalRead(LE);
-  while  (sm==HIGH ){
-    Motoradelante(125);
-    if (sl==HIGH && sr==HIGH){
-      flag=1;
-      if (flag==1){
-        cont=1;
-        flag=2;
-      }
-      if (flag==2){ 
-        flag==0;
-        cont=2;
-        if (cont==2){
-          Motorpausa(); 
-        }
-      }
-    }
-  }
+void izq(){
+
 }
-void adelante4(){
-  cont=0;
-  flag=0;
-  sr=digitalRead(RIG);
-  sm=digitalRead(MID);
-  sl=digitalRead(LE);
-  while  (sm==HIGH ){
-    Motoradelante(125);
-    if (sl==HIGH && sr==HIGH){
-      flag=1;
-      if (flag==1){
-        cont=1;
-        flag=0;
-        if (cont==1){
-          Motorpausa(); 
-        }
-      }
-    }
-  }
+void der(){
+
 }
+void grid1(){
+
+}
+void grid2(){
+}
+void grid3(){
+  
+}
+void grid4(){
+  
+}
+void grid5(){
+  
+}
+void grid6(){
+  
+}
+void grid7(){
+  
+}
+void grid8(){
+  
+}
+void grid9(){
+  
+}
+void grid10(){
+  
+}
+void grid11(){
+
+}
+void grid12(){
+  
+}
+void grid13(){
+  
+}
+void grid14(){
+  
+}
+void grid15(){
+  
+}
+void grid16(){
+  
+}
+
+//aca termina el grid
 void setup() {
-  // put your setup code here, to run once:
   Serial.begin(9600);
-  pinMode(LE,INPUT);
-  pinMode(MID,INPUT);
-  pinMode(RIG,INPUT);
-  pinMode(EC,INPUT);
-  pinMode(TR,OUTPUT);
-  pinMode(ML1,OUTPUT);
-  pinMode(ML2,OUTPUT);
-  pinMode(MLPWM,OUTPUT);
-  pinMode(MR1,OUTPUT);
-  pinMode(MR2,OUTPUT);
-  pinMode(MRPWM,OUTPUT);
-  digitalWrite(ML1,LOW);
-  digitalWrite(ML2,LOW);
-  digitalWrite(MR1,LOW);
-  digitalWrite(MR2,LOW);
-  S1.attach(pinS);
-  S1.write(140);
+  pinMode(LE,INPUT);pinMode(MID,INPUT);pinMode(RIG,INPUT);
+  pinMode(EC,INPUT);pinMode(TR,OUTPUT);
+  pinMode(ML1,OUTPUT);pinMode(ML2,OUTPUT);pinMode(MLPWM,OUTPUT);
+  pinMode(MR1,OUTPUT);pinMode(MR2,OUTPUT);pinMode(MRPWM,OUTPUT);
+  digitalWrite(ML1,LOW);digitalWrite(ML2,LOW);
+  digitalWrite(MR1,LOW);digitalWrite(MR2,LOW);
+  S1.attach(pinS);S1.write(140);
   delay(1000);
 }
 void loop() {
-  // put your main code here, to run repeatedly:
-  //line
-//  Serial.print("LE: ");
-//  Serial.print(digitalRead(LE));
-//  Serial.print("   ");
-//  Serial.print("MID: ");
-//  Serial.print(digitalRead(MID));
-//  Serial.print("   ");
-//  Serial.print("RIG: ");
-//  Serial.println(digitalRead(RIG));
-//  //ultrasen
-//  digitalWrite(TR,LOW);
-//  delay(10);
-//  digitalWrite(TR,HIGH);
-//  delay(10);
-//  digitalWrite(TR,LOW);
-//  float d=pulseIn(EC,HIGH);
-//  float distance=d*0.034/2;
-//  Serial.print("DISTANCE: ");
-//  Serial.print("   ");
-//  Serial.println(distance);
-  // modificar 
-  //linea();
-  adelante1();
+  linea();
+  //lineatras();
+  //ultra();
+  //adelante1();
+  //blue();
+  //grid1();
+  //grid2();
+  //grid3();
+  //grid4();
+  //grid5();
+  //grid6();
+  //grid7();
+  //grid8();
+  //grid9();
+  //grid10();
+  //grid11();
+  //grid12();
+  //grid13();
+  //grid14();
+  //grid15();
+  //grid16();
+  // sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
+  // Serial.println(sr);
+  // Serial.println(sm);
+  // Serial.println(sl);
 }
