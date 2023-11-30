@@ -13,6 +13,11 @@
 #define MRPWM 6
 Servo S1;
 #define pinS 3
+int sr;
+int sm;
+int sl;
+int cont;
+int flag;
 void Motoradelante(int VEL){
   analogWrite(MLPWM,VEL);
   analogWrite(MRPWM,VEL);
@@ -53,15 +58,16 @@ void Motorizq(int VEL){
   digitalWrite(MR1,HIGH);
   digitalWrite(MR2,LOW);
 }
+
 void ultra(){
   
 }
 void linea(){
   Serial.println("Seguidor de linea");
+  sr=digitalRead(RIG);
+  sm=digitalRead(MID);
+  sl=digitalRead(LE);
   while(true){
-    int sr=digitalRead(RIG);
-    int sm=digitalRead(MID);
-    int sl=digitalRead(LE);
     if(sr == HIGH && sm == HIGH && sl == HIGH){
         Motorpausa();
         Motoradelante(125);
@@ -79,7 +85,94 @@ void linea(){
      } 
    }
 }
-
+void adelante1(){
+  cont=0;
+  flag=0;
+  sr=digitalRead(RIG);
+  sm=digitalRead(MID);
+  sl=digitalRead(LE);
+  while  (sm==HIGH ){
+    Motoradelante(125);
+    if (sl==HIGH && sr==HIGH){
+      flag=1;
+      if (flag==1){
+        cont=1;
+        flag=0;
+        if (cont==1){
+          Motorpausa(); 
+        }
+      }
+    }
+  }
+}
+void adelante2(){
+  cont=0;
+  flag=0;
+  sr=digitalRead(RIG);
+  sm=digitalRead(MID);
+  sl=digitalRead(LE);
+  while  (sm==HIGH ){
+    Motoradelante(125);
+    if (sl==HIGH && sr==HIGH){
+      flag=1;
+      if (flag==1){
+        cont=1;
+        flag=2;
+      }
+      if (flag==2){
+        flag==0;
+        cont=2;
+      }
+      if (cont==2){
+        Motorpausa(); 
+      }
+    }
+  }
+}
+void adelante3(){
+  cont=0;
+  flag=0;
+  sr=digitalRead(RIG);
+  sm=digitalRead(MID);
+  sl=digitalRead(LE);
+  while  (sm==HIGH ){
+    Motoradelante(125);
+    if (sl==HIGH && sr==HIGH){
+      flag=1;
+      if (flag==1){
+        cont=1;
+        flag=2;
+      }
+      if (flag==2){ 
+        flag==0;
+        cont=2;
+        if (cont==2){
+          Motorpausa(); 
+        }
+      }
+    }
+  }
+}
+void adelante4(){
+  cont=0;
+  flag=0;
+  sr=digitalRead(RIG);
+  sm=digitalRead(MID);
+  sl=digitalRead(LE);
+  while  (sm==HIGH ){
+    Motoradelante(125);
+    if (sl==HIGH && sr==HIGH){
+      flag=1;
+      if (flag==1){
+        cont=1;
+        flag=0;
+        if (cont==1){
+          Motorpausa(); 
+        }
+      }
+    }
+  }
+}
 void setup() {
   // put your setup code here, to run once:
   Serial.begin(9600);
@@ -99,7 +192,7 @@ void setup() {
   digitalWrite(MR1,LOW);
   digitalWrite(MR2,LOW);
   S1.attach(pinS);
-  S1.write(90);
+  S1.write(140);
   delay(1000);
 }
 void loop() {
@@ -124,5 +217,7 @@ void loop() {
 //  Serial.print("DISTANCE: ");
 //  Serial.print("   ");
 //  Serial.println(distance);
-  linea();
+  // modificar 
+  //linea();
+  adelante1();
 }
