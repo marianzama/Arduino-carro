@@ -10,8 +10,6 @@
 int sr;
 int sm;
 int sl;
-int cont;
-int flag;
 void Motoradelante(float VEL){
   analogWrite(MLPWM,VEL);analogWrite(MRPWM,VEL);
   digitalWrite(ML1,HIGH);digitalWrite(ML2,LOW);
