@@ -65,9 +65,8 @@ void lineatras(){
     if(sm == LOW){
       if(sr == HIGH && sl == HIGH){
         Motorrever(125);
-      }
-      
-   }
+      } 
+    }
   }
 }
 void setup() {
