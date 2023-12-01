@@ -72,27 +72,6 @@ void lineatras(){
    }
   }
 }
-//aca inicia el grid
-void adelante1(){
-  sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
-  cont=0;
-  if(sm == 1){
-    Motoradelante(125/1.2);
-    cont=1;
-  }
-  if (sr==0 || sm==0 || sl==0){
-    cont=0;
-    Motorpausa();
-    delay(1000);
-    if (cont==0){
-      Motorpausa();
-    }else{
-      Motoradelante(125/1.2);
-    }
-  }
-}
-
-//aca termina el grid
 void setup() {
   Serial.begin(9600);
   pinMode(LE,INPUT);pinMode(MID,INPUT);pinMode(RIG,INPUT);
@@ -102,27 +81,7 @@ void setup() {
   digitalWrite(MR1,LOW);digitalWrite(MR2,LOW);
 }
 void loop() {
+  //descomentar la funcion que quieras usar
   //linea();
   //lineatras();
-  //adelante1();
-  //grid1();
-  //grid2();
-  //grid3();
-  //grid4();
-  //grid5();
-  //grid6();
-  //grid7();
-  //grid8();
-  //grid9();
-  //grid10();
-  //grid11();
-  //grid12();
-  //grid13();
-  //grid14();
-  //grid15();
-  //grid16();
-  // sr=digitalRead(RIG);sm=digitalRead(MID);sl=digitalRead(LE);
-  // Serial.println(sr);
-  // Serial.println(sm);
-  // Serial.println(sl);
 }
