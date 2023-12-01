@@ -47,8 +47,36 @@ void ultra(){
   digitalWrite(TR,LOW);delay(10);
   digitalWrite(TR,HIGH);delay(10);
   digitalWrite(TR,LOW);
-  float d=pulseIn(EC,HIGH);
-  float distance=d*0.034/2;           
+  float di=pulseIn(EC,HIGH);
+  float d=di*0.034/2;
+  if (d>15){
+    Motoradelante(125);
+  }
+  if(d<=15){
+    S1.write(10);
+    Motorpausa();
+    if (d>7){
+      delay(1000);
+      Motorder(125);
+      delay(1000);
+      Motoradelante(125);
+      S1.write(90);
+    }if (d<=7){
+      S1.write(170);
+      if (d>7){
+        delay(1000);
+        Motorizq(125);
+        delay(1000);
+        Motoradelante(125);
+        S1.write(90);
+      }else{
+        delay(1000);
+        Motorrever(125);
+        S1.write(90);
+      }
+    }
+  }
+          
 } 
 void linea(){
   while(true){
@@ -105,63 +133,6 @@ void adelante1(){
   }
 }
 
-void atras1(){
-
-}
-void izq(){
-
-}
-void der(){
-
-}
-void grid1(){
-
-}
-void grid2(){
-}
-void grid3(){
-  
-}
-void grid4(){
-  
-}
-void grid5(){
-  
-}
-void grid6(){
-  
-}
-void grid7(){
-  
-}
-void grid8(){
-  
-}
-void grid9(){
-  
-}
-void grid10(){
-  
-}
-void grid11(){
-
-}
-void grid12(){
-  
-}
-void grid13(){
-  
-}
-void grid14(){
-  
-}
-void grid15(){
-  
-}
-void grid16(){
-  
-}
-
 //aca termina el grid
 void setup() {
   Serial.begin(9600);
@@ -171,13 +142,13 @@ void setup() {
   pinMode(MR1,OUTPUT);pinMode(MR2,OUTPUT);pinMode(MRPWM,OUTPUT);
   digitalWrite(ML1,LOW);digitalWrite(ML2,LOW);
   digitalWrite(MR1,LOW);digitalWrite(MR2,LOW);
-  S1.attach(pinS);S1.write(140);
+  S1.attach(pinS);S1.write(90);
   delay(1000);
 }
 void loop() {
-  linea();
+  //linea();
   //lineatras();
-  //ultra();
+  ultra();
   //adelante1();
   //blue();
   //grid1();
@@ -200,4 +171,19 @@ void loop() {
   // Serial.println(sr);
   // Serial.println(sm);
   // Serial.println(sl);
+//  long t; 
+//  long d; 
+//
+//  digitalWrite(TR, HIGH);
+//  delayMicroseconds(10);         
+//  digitalWrite(TR, LOW);
+//  
+//  t = pulseIn(EC, HIGH); 
+//  d = t/59;             
+//  
+//  Serial.print("Distancia: ");
+//  Serial.print(d);
+//  Serial.print("cm");
+//  Serial.println();
+//  delay(100); 
 }
